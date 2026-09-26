@@ -30,3 +30,5 @@ generates a different date-time pattern from 4.4.
 
 Consumers fetch committed artifacts over HTTPS at a pinned tag. The
 aggregators find publishers by the `cbd-publisher` GitHub topic.
+
+The pattern and the argument behind it: [convention-based-design](https://github.com/jagreehal/convention-based-design).
