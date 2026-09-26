@@ -1,0 +1,35 @@
+# The docs check, published by the team that owns the convention. Publishing
+# repositories call it from their own CI:
+#
+#   docs:
+#     uses: jagreehal/cbd-handbook/.github/workflows/check-docs.yml@v1.0.0
+#     with: { handbook-ref: v1.0.0 }
+name: check-docs
+on:
+  workflow_call:
+    inputs:
+      handbook-ref:
+        description: Version of the convention (schema + checker) to enforce
+        type: string
+        default: main
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: repo
+      - uses: actions/checkout@v4
+        with:
+          repository: jagreehal/cbd-handbook
+          ref: ${{ inputs.handbook-ref }}
+          path: handbook
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: handbook/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile --dir handbook
+      - run: node handbook/src/check-docs.ts repo ${{ github.event.repository.name }}

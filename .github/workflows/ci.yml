@@ -1,0 +1,25 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check
+
+  # This repo publishes docs too, so it runs the same check it asks of others,
+  # against the schema in this commit.
+  docs:
+    uses: ./.github/workflows/check-docs.yml
+    with:
+      handbook-ref: ${{ github.sha }}
