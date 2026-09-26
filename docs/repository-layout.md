@@ -18,8 +18,8 @@ any-repo/
     *.md
 ```
 
-A consumer reads one file, at a tag you published. It does not import your
-source, match your language, or join your release cycle:
+A consumer reads one file at a tag you published, without importing your
+source or joining your release cycle:
 
 ```text
 https://raw.githubusercontent.com/jagreehal/cbd-payments-service/v1.0.0/contracts/openapi.json
@@ -27,10 +27,10 @@ https://raw.githubusercontent.com/jagreehal/cbd-payments-service/v1.0.0/contract
 
 ## Enrolling a repository
 
-Add the `cbd-publisher` topic to the repository on GitHub. That is the whole
-step. `cbd-docs-site` and `cbd-catalog` list every repository with the topic on
-each build and read its `docs/` and `contracts/`. No central file names you, and
-no aggregator team has to approve you.
+Add the `cbd-publisher` topic to your repository on GitHub. On their next
+build, `cbd-docs-site` and `cbd-catalog` list the repositories with that topic
+and read their `docs/` and `contracts/`. You edit no central file and wait for
+no approval from the aggregator owners.
 
 ## Documentation frontmatter
 
@@ -122,17 +122,16 @@ jobs:
       handbook-ref: v1.0.0
 ```
 
-It loads the artifact with `z.fromJSONSchema`. Python repositories load the same
-file with `jsonschema`. Neither imports the Zod source in this repository,
+The check loads the artifact with `z.fromJSONSchema`. Python repositories load
+the same file with `jsonschema`. Neither imports the Zod source in this repository,
 because a shared package would exclude the Python consumer and couple our
-releases. See `check_docs.py` in `cbd-reporter`, which enforces the same rules
-without sharing a line of code.
+releases. `check_docs.py` in `cbd-reporter` enforces the same rules in its own code.
 
 ## The manifest, and the two-step publish
 
-`cbd-docs-site` publishes
-[`contracts/docs-manifest.json`](https://jagreehal.github.io/cbd-docs-site/contracts/docs-manifest.json)
-on every run: every document id, its owner, and the documents linking to it.
+Each `cbd-docs-site` build publishes
+[`contracts/docs-manifest.json`](https://jagreehal.github.io/cbd-docs-site/contracts/docs-manifest.json):
+each document id, its owner, and the documents linking to it.
 
 ```json
 {

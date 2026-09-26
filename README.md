@@ -1,12 +1,12 @@
 # cbd-handbook
 
-The team that owns the publishing convention. It publishes:
+The platform team owns the publishing convention here and publishes:
 
-- `contracts/docs-frontmatter.json`: the JSON Schema every `docs/*.md` file in
-  every repository must satisfy, generated from Zod in `src/`.
-- `.github/workflows/check-docs.yml`: the reusable docs check TypeScript repos
-  call from their CI. Python repos enforce the same schema with `jsonschema`.
-- `docs/`: company policy, including [repository layout](docs/repository-layout.md).
+- `contracts/docs-frontmatter.json`, the JSON Schema for `docs/*.md` in any
+  enrolled repository. Zod in `src/` generates it.
+- `.github/workflows/check-docs.yml`, the docs check TypeScript repos call from
+  their CI. Python repos enforce the same schema with `jsonschema`.
+- `docs/`, company policy such as [repository layout](docs/repository-layout.md).
 
 ```sh
 pnpm install
@@ -14,20 +14,19 @@ pnpm run check        # Zod source and committed artifact agree
 pnpm run check-docs   # this repo passes its own docs check
 ```
 
-`zod` is pinned exactly because its output is the published artifact; a minor
-bump can change the generated JSON Schema.
+We pin `zod` to one version. Its output is the published artifact, and zod 4.6
+generates a different date-time pattern from 4.4.
 
 ## The six repositories
 
 | Repo | Role |
 |---|---|
-| [cbd-handbook](https://github.com/jagreehal/cbd-handbook) | Owns the convention: docs frontmatter schema, docs checker, company policy |
-| [cbd-payments-service](https://github.com/jagreehal/cbd-payments-service) | TypeScript producer: OpenAPI + event JSON Schemas + runbook |
-| [cbd-dashboard](https://github.com/jagreehal/cbd-dashboard) | TypeScript consumer: typed client generated from the pinned OpenAPI |
+| [cbd-handbook](https://github.com/jagreehal/cbd-handbook) | Owns the convention: docs frontmatter schema, docs check, company policy |
+| [cbd-payments-service](https://github.com/jagreehal/cbd-payments-service) | TypeScript producer: OpenAPI, event JSON Schemas, runbook |
+| [cbd-dashboard](https://github.com/jagreehal/cbd-dashboard) | TypeScript consumer: generates a typed client from the pinned OpenAPI |
 | [cbd-reporter](https://github.com/jagreehal/cbd-reporter) | Python consumer: validates events against the pinned JSON Schemas |
-| [cbd-docs-site](https://github.com/jagreehal/cbd-docs-site) | Aggregator: [one docs index](https://jagreehal.github.io/cbd-docs-site/) over every enrolled repo |
-| [cbd-catalog](https://github.com/jagreehal/cbd-catalog) | Aggregator: [EventCatalog](https://jagreehal.github.io/cbd-catalog/) over every enrolled repo |
+| [cbd-docs-site](https://github.com/jagreehal/cbd-docs-site) | Aggregator: [docs index](https://jagreehal.github.io/cbd-docs-site/) over the enrolled repos |
+| [cbd-catalog](https://github.com/jagreehal/cbd-catalog) | Aggregator: [EventCatalog](https://jagreehal.github.io/cbd-catalog/) over the enrolled repos |
 
-No repository imports another's source. Consumers read committed artifacts
-at pinned tags over HTTPS; aggregators discover publishers by the
-`cbd-publisher` GitHub topic.
+Consumers fetch committed artifacts over HTTPS at a pinned tag. The
+aggregators find publishers by the `cbd-publisher` GitHub topic.
