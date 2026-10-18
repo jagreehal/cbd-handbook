@@ -16,10 +16,10 @@ const frontmatter = z.fromJSONSchema(
   JSON.parse(readFileSync(new URL('../contracts/docs-frontmatter.json', import.meta.url), 'utf8'))
 );
 
-// Published by cbd-docs-site on its last run. It is the only thing that can see
+// Published by cbd-catalog on its last run. It is the only thing that can see
 // other repositories. Before the first run there is nothing to check against.
 const manifestUrl =
-  process.env.DOCS_MANIFEST_URL ?? 'https://jagreehal.github.io/cbd-docs-site/contracts/docs-manifest.json';
+  process.env.DOCS_MANIFEST_URL ?? 'https://jagreehal.github.io/cbd-catalog/contracts/docs-manifest.json';
 const response = await fetch(manifestUrl);
 const manifest: Record<string, { linkedFrom: string[] }> | null = response.ok ? await response.json() : null;
 
