@@ -28,9 +28,9 @@ https://raw.githubusercontent.com/jagreehal/cbd-payments-service/v1.0.0/contract
 ## Enrolling a repository
 
 Add the `cbd-publisher` topic to your repository on GitHub. On their next
-build, `cbd-docs-site` and `cbd-catalog` list the repositories with that topic
-and read their `docs/` and `contracts/`. You edit no central file and wait for
-no approval from the aggregator owners.
+build, `cbd-catalog` lists the repositories with that topic and reads their
+`docs/` and `contracts/`. You edit no central file and wait for no approval
+from the aggregator owners.
 
 ## Documentation frontmatter
 
@@ -129,8 +129,8 @@ releases. `check_docs.py` in `cbd-reporter` enforces the same rules in its own c
 
 ## The manifest, and the two-step publish
 
-Each `cbd-docs-site` build publishes
-[`contracts/docs-manifest.json`](https://jagreehal.github.io/cbd-docs-site/contracts/docs-manifest.json):
+Each `cbd-catalog` build publishes
+[`contracts/docs-manifest.json`](https://jagreehal.github.io/cbd-catalog/contracts/docs-manifest.json):
 each document id, its owner, and the documents linking to it.
 
 ```json
@@ -155,15 +155,14 @@ broken.
 
 ## Aggregators do not publish
 
-`cbd-catalog` and `cbd-docs-site` read the convention without honouring it. Neither
-has a `docs/` directory. Publishing is for repositories that own something
-another team needs, and a rule every repository must satisfy is a tax.
+`cbd-catalog` reads the convention without honouring it. It has no `docs/`
+directory. Publishing is for repositories that own something another team needs, and a rule every repository must satisfy is a tax.
 
 ## The agent story, honestly
 
-`cbd-docs-site` emits `llms.txt` because it costs a fifteen-line endpoint over data
-the site already holds, and because it is generated rather than authored, so it
-cannot disagree with the documents it lists.
+`cbd-catalog` emits `llms.txt` because it costs nothing over data the site
+already holds, and because it is generated rather than authored, so it cannot
+disagree with the documents it lists.
 
 Do not expect assistants to read it. In the largest published measurement we
 know of, Evil Martians logged roughly 268,000 agent requests over two months and
